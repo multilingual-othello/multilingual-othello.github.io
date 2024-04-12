@@ -222,7 +222,7 @@
 		<center><tr>
 			<td align=center width=700px>
 				<center>
-					<img class="round" style="width:430px" src="./resources/mappingFuncs.png"/>
+					<img class="round" style="width:430px" src="./resources/mappingFuncs.png" alt="An illustration of the mechanism of mapping functions that map Othello game moves into tokens of specific languages."/>
 				</center>
 			</td>
 			<td align=center width=650px>
@@ -238,7 +238,9 @@
 				<td>
 					<br>We use Multilingual Othello (mOthello), a sequence modeling task based on the Othello board game (which has been previously explored in <a href="https://arxiv.org/abs/2210.13382">Othello World</a>) to investigate the essential factors for learning language-neutral representations and whether they are sufficient to facilitate the cross-lingual transfer ability of multilingual models. 
 					<br><br>
-					In mOthello, a model is given a sequence of game moves in a specific "language", and the task is to predict the next legal move in the same "language". This environment is appropriate for our purposes, since it separates the ground truth "world" (i.e., the game state) which is assumed to be singular, from the language used to describe it, which can take any number of forms (languages). We later formulate our measure of language-neutral representations around the ground-truth underlying world states. The figures above show how mOthello instances can be used to generate a corpus of multilingual data for training and evaluation.
+					In mOthello, a model is given a sequence of game moves in a specific "language", and the task is to predict the next legal move in the same "language". This environment is appropriate for our purposes, since it separates the ground truth "world" (i.e., the game state) which is assumed to be singular, from the language used to describe it, which can take any number of forms (languages). We later formulate our measure of language-neutral representations around the ground-truth underlying world states. The figures above show how mOthello instances can be used to generate a corpus of multilingual data for training and evaluation. 
+					<br><br>
+					With training data generated via mOthello, we train multilingual models with GPT-2 architecture (mOthelloGPTs) and evaluate whether they have learned language-neutral represetations and whether their performance can transfer across languages.
 				</td>
 			</tr>
 		</center>
@@ -261,20 +263,23 @@
 		<center>
 			<tr>
 				<td>
-					We build our embodied sequence modeling framework with a Transformer-based architecture, in which we can process heterogeneous data (e.g. natural language instructions, states and actions) as sequences and autoregressively model the state-action trajectories with causal attention masks.
-					<br><br>
-					Once we have models trained to perform a language-conditioned navigation task, we train simple classifiers as probes to explore whether the internal activations of a trained model contain representations of abstract environmental states (e.g., current board layouts). If the trained probes can accurately reconstruct the current state when it is not explicitly given to the model, it suggests that abstract state representations can emerge during model's pretraining. 
-					<br><br>
-					We introduce two sequence modeling setups in BabyAI, namely the <b>Regular setup</b> and the <b>Blindfolded setup</b>. 
-					<ul>
-						<li><b>Regular Setup</b>: The objective is to predict next actions based on all the information at the current and the previous steps provided explicitly including intermediate states which are computed using the BabyAI environment.</li>
-						<li><b>Blindfolded Setup</b>: The objective is to predict next actions based on the language instruction, prior actions, and only the initial state. By comparing state reconstruction task and task completion performance of this setup against the regular setup, we hope to gain insights into whether these sequence models are able to internally reconstruct the intermediate states implicitly in order to determine the right next actions to take. </li>
-					</ul>
+					<br>To measure to what extent the hidden representations of semantically similar tokens across languages align with one another, we propose <b>cross-lingual alignment probes</b>, which is a probe <em>P<sub>src</sub></em> trained to recover the board states with input sequences in language <em>L<sub>src</sub></em> to recover the board states given input sequences in another language <em>L<sub>tgt</sub></em>, in a zero-shot fashion. If a cross-lingual alignment probe can reconstruct the board states in another language accurately, this reflects that there is a shared latent space for language <em>L<sub>src</sub></em> and <em>L<sub>tgt</sub></em>.
 				</td>
 			</tr>
 		</center>
 	</table>
-	
+
+	<table align=center width=850px>
+		<center>
+			<tr>
+				<td>
+					<br>Cross-lingual transfer ability is the ability to enhance task performance in a target language when being finetuned exclusively with labeled data from the same task, but in a different source language. To measure the cross-lingual transfer ability of mOthelloGPT models, we first pretrain mOthelloGPTs on a prefix-filtered subset of the mOthello corpus, translated to <em>M</em> languages; then, we finetune the pretrained model with a non-prefix-filtered subset of the entire mOthello corpus, but only in one of the languages. We record checkpoints during finetuning process and measure the alignment and performance for each model checkpoint. The performance is measured by calculating the top-1 accuracy of legal move prediction in each language. If a model can achieve better performance in a target language when finetuned solely on the source language, this reflects that the model has good cross-lingual transfer ability.
+					<!-- [fn]By prefix-filtered subset, we mean that all the sequences in that subset share the same first few moves. We use prefix-filtered subset as the pretraining corpus because we do not want the pretrained model to generalize too well, hence leaving room for improvement during the finetuning process.[/fn] -->
+				</td>
+			</tr>
+		</center>
+	</table>
+
 	<hr>
 
 	<center><h1>Results</h1></center>
