@@ -195,7 +195,14 @@
 			<td>
 				Many pretrained multilingual models exhibit cross-lingual transfer ability, which is often attributed to a learned language-neutral representation during pretraining. However, it remains unclear what factors contribute to the learning of a language-neutral representation, and whether the learned language-neutral representation suffices to facilitate cross-lingual transfer. We propose a synthetic task, Multilingual Othello (mOthello), as a testbed to delve into these two questions. 
 				<br><br>
-				We find that: (1) models trained with naive multilingual pretraining fail to learn a language-neutral representation across all input languages; (2) the introduction of "anchor tokens" (i.e., lexical items that are identical across languages) helps cross-lingual representation alignment; and (3) the learning of a language-neutral representation alone is not sufficient to facilitate cross-lingual transfer. Based on our findings, we propose a novel approach -- multilingual pretraining with unified output space -- that both induces the learning of language-neutral representation and facilitates cross-lingual transfer.
+				We find that: 
+				<ol>
+					<li>models trained with naive multilingual pretraining fail to learn a language-neutral representation across all input languages;</li>
+					<li>the introduction of "anchor tokens" (i.e., lexical items that are identical across languages) helps cross-lingual representation alignment; and</li>
+					<li>the learning of a language-neutral representation alone is not sufficient to facilitate cross-lingual transfer.</li>
+				</ol>
+				Based on our findings, we propose a novel approach -- multilingual pretraining with unified output space -- that both induces the learning of language-neutral representation and facilitates cross-lingual transfer.
+
 			</td>
 		</tr>
 	</table>
@@ -213,9 +220,14 @@
 
 	<table align=center width=400px>
 		<center><tr>
+			<td align=center width=700px>
+				<center>
+					<img class="round" style="width:430px" src="./resources/mappingFuncs.png"/>
+				</center>
+			</td>
 			<td align=center width=650px>
 				<center>
-					<img class="round" style="width:650px" src="./resources/babyai_illustration.png"/>
+					<img class="round" style="width:270px" src="./resources/mothello_corpus.png"/>
 				</center>
 			</td>
 		</tr></center>
@@ -224,15 +236,9 @@
 		<center>
 			<tr>
 				<td>
-					<br> We use the <a href="https://minigrid.farama.org/environments/babyai/index.html">BabyAI</a> environment as a testbed to investigate whether embodied sequence modeling leads to the emergence of abstract internal representations of the environment. The goal in this environment is to control an agent to navigate and interact in an <em>N</em> by <em>N</em> grid to follow the given language instructions (e.g., "go to the yellow key").
-
+					<br>We use Multilingual Othello (mOthello), a sequence modeling task based on the Othello board game (which has been previously explored in <a href="https://arxiv.org/abs/2210.13382">Othello World</a>) to investigate the essential factors for learning language-neutral representations and whether they are sufficient to facilitate the cross-lingual transfer ability of multilingual models. 
 					<br><br>
-					Above is a demonstration of a language-conditioned navigation task in BabyAI <em>GoToLocal</em> level where an agent (i.e., red triangle) needs to navigate to the target objects specified in the given instructions. This is an example trajectory where the agent achieves the goal of "go to the grey key": 
-					<ol type="A">
-						<li>The board is randomly initialized with the agent and 8 objects.</li>
-						<li>The agent navigates in the environment to try to approach the target object.</li>
-						<li>The agent keeps navigating until it reaches the target object.</li>
-					</ol>
+					In mOthello, a model is given a sequence of game moves in a specific "language", and the task is to predict the next legal move in the same "language". This environment is appropriate for our purposes, since it separates the ground truth "world" (i.e., the game state) which is assumed to be singular, from the language used to describe it, which can take any number of forms (languages). We later formulate our measure of language-neutral representations around the ground-truth underlying world states. The figures above show how mOthello instances can be used to generate a corpus of multilingual data for training and evaluation.
 				</td>
 			</tr>
 		</center>
@@ -240,14 +246,13 @@
 
 	<br><hr>
 
-	<center><h1>Methods</h1></center>
+	<center><h1>Measuring Representation Alignment and Cross-lingual Transfer</h1></center>
 
 	<table align=center width=400px>
 		<tr>
-			<td align=center width=1000px>
+			<td align=center width=600px>
 				<center>
-					<td><img class="round" style="width:600px" src="./resources/sequece_model_architecture.png"/></td>
-					<td><img class="round" style="width:400px" src="./resources/probing_pipeline.png"/></td>
+					<td><img class="round" style="width:600px" src="./resources/transfer_probe.png"/></td>
 				</center>
 			</td>
 		</tr>
@@ -388,7 +393,7 @@
 			<td><img class="layered-paper-big" style="height:175px" src="./resources/paper.png"/></td>
 			<td><span style="font-size:14pt">Tianze Hua*, Tian Yun*, Ellie Pavlick.<br>
 				<b>mOthello: When Do Cross-Lingual Representation Alignment and Cross-Lingual Transfer Emerge in Multilingual Models?</b><br>
-				In NAACL 2023 (Findings).<br>
+				In NAACL 2024 (Findings).<br>
 				<!-- (<a href="./resources/camera-ready.pdf">camera ready</a>)<br> -->
 				<span style="font-size:4pt"><a href=""><br></a>
 				</span>
