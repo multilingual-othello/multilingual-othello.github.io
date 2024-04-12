@@ -1,7 +1,7 @@
-@article{
-yun2023do,
-title={Do Vision-Language Pretrained Models Learn Composable Primitive Concepts?},
-author={Tian Yun and Usha Bhalla and Ellie Pavlick and Chen Sun},
-journal={Transactions on Machine Learning Research},
-year={2023},
+@inproceedings{
+hua2024mothello,
+title={mOthello: When Do Cross-Lingual Representation Alignment and Cross-Lingual Transfer Emerge in Multilingual Models?},
+author={Tianze Hua and Tian Yun and Ellie Pavlick},
+booktitle={2024 Annual Conference of the North American Chapter of the Association for Computational Linguistics},
+year={2024}
 }
