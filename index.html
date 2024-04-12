@@ -118,7 +118,7 @@
 
 <html>
 <head>
-	<title>Emergence of Abstract State Representations in Embodied Sequence Modeling</title>
+	<title>mOthello: When Do Cross-Lingual Representation Alignment and Cross-Lingual Transfer Emerge in Multilingual Models?</title>
 	<meta property="og:image" content="Path to my teaser.png"/> <!-- Facebook automatically scrapes this. Go to https://developers.facebook.com/tools/debug/ if you update and want to force Facebook to rescrape. -->
 	<meta property="og:title" content="Creative and Descriptive Paper Title." />
 	<meta property="og:description" content="Paper description." />
@@ -138,7 +138,7 @@
 <body>
 	<center>
 		<br>
-		<span style="font-size:36px "><b>Emergence of Abstract State Representations <br> in Embodied Sequence Modeling</b></span>
+		<span style="font-size:36px "><b>mOthello: When Do Cross-Lingual Representation Alignment and <br> Cross-Lingual Transfer Emerge in Multilingual Models?</b></span>
 		<br>
 		<br>
 
@@ -147,44 +147,19 @@
 				<tr>
 					<td align=center width=100px>
 						<center>
+							<span style="font-size:24px"><a href="https://ethahtz.github.io/">Tianze Hua</a>*</span>
+							<br>
+							<span style="font-size:16px">Brown University</span>
+						</center>
+					</td>
+					<td align=center width=100px>
+						<center>
 							<span style="font-size:24px"><a href="https://tttyuntian.github.io/">Tian Yun</a>*</span>
 							<br>
 							<span style="font-size:16px">Brown University</span>
 						</center>
 					</td>
-					<td align=center width=100px>
-						<center>
-							<span style="font-size:24px"><a href="https://zilaiz.github.io/">Zilai Zeng</a>*</span>
-							<br>
-							<span style="font-size:16px">Brown University</span>
-						</center>
-					</td>
-					<td align=center width=100px>
-						<center>
-							<span style="font-size:24px"><a href="https://kunhanda.github.io/">Kunal Handa</a></span>
-							<br>
-							<span style="font-size:16px">Brown University</span>
-						</center>
-					</td>
-				</tr>
-			</table>
-			<br>
-			<table align=center width=800px>
-				<tr>
-					<td align=center width=100px>
-						<center>
-							<span style="font-size:24px"><a href="https://scholar.google.com/citations?user=1JtHXbAAAAAJ&hl=en">Ashish V. Thapliyal</a></span>
-							<br>
-							<span style="font-size:16px">Google Research</span>
-						</center>
-					</td>
-					<td align=center width=100px>
-						<center>
-							<span style="font-size:24px"><a href="https://scholar.google.com/citations?user=qCdLtIoAAAAJ&hl=en">Bo Pang</a></span>
-							<br>
-							<span style="font-size:16px">Google Research</span>
-						</center>
-					</td>
+			
 					<td align=center width=100px>
 						<center>
 							<span style="font-size:24px"><a href="https://scholar.google.com/citations?user=sFyrSa8AAAAJ&hl=en">Ellie Pavlick</a></span>
@@ -192,30 +167,9 @@
 							<span style="font-size:16px">Brown University</span>
 						</center>
 					</td>
-					<td align=center width=100px>
-						<center>
-							<span style="font-size:24px"><a href="https://chensun.me/index.html">Chen Sun</a></span>
-							<br>
-							<span style="font-size:16px">Brown University</span>
-						</center>
-					</td>
 				</tr>
 			</table>
-			<br>
-			<table align=center width=300px>
-				<tr>
-					<td align=center width=120px>
-						<center>
-							<div class="buttons" style="margin-bottom: 8px;"><a class="btn btn-primary" role="button" href="https://arxiv.org/abs/2311.02171">[Paper]</a></div>
-						</center>
-					</td>
-					<td align=center width=120px>
-						<center>
-							<div class="buttons" style="margin-bottom: 8px;"><a class="btn btn-primary" role="button" href="https://github.com/brown-palm/abstract-state-seqmodel">[Code]</a></div>
-						</center>
-					</td>
-				</tr>
-			</table>
+			
 		</table>
 	</center>
 
@@ -225,9 +179,9 @@
 		<center><h1>Abstract</h1></center>
 		<tr>
 			<td>
-				Reinforcement learning via sequence modeling aims to mimic the success of language models, where actions taken by an embodied agent are modeled as tokens to predict. Despite their promising performance, it remains unclear if embodied sequence modeling leads to the emergence of internal representations that represent the environmental state information. A model that lacks abstract state representations would be liable to make decisions based on surface statistics which fail to generalize. We take the BabyAI environment, a grid world in which language-conditioned navigation tasks are performed, and build a sequence modeling Transformer, which takes a language instruction, a sequence of actions, and environmental observations as its inputs. In order to investigate the emergence of abstract state representations, we design a "blindfolded" navigation task, where only the initial environmental layout, the language instruction, and the action sequence to complete the task are available for training. 
-				<br><br>
-				Our probing results show that intermediate environmental layouts can be reasonably reconstructed from the internal activations of a trained model, and that language instructions play a role on the construction accuracy. Our results suggest that many key features of state representations can emerge via embodied sequence modeling, supporting an optimistic outlook for applications of sequence modeling objectives to more complex embodied decision-making domains.
+				Many pretrained multilingual models exhibit cross-lingual transfer ability, which is often attributed to a learned language-neutral representation during pretraining. However, it remains unclear what factors contribute to the learning of a language-neutral representation, and whether the learned language-neutral representation suffices to facilitate cross-lingual transfer. We propose a synthetic task, Multilingual Othello (mOthello), as a testbed to delve into these two questions. 
+				<br>
+				We find that: (1) models trained with naive multilingual pretraining fail to learn a language-neutral representation across all input languages; (2) the introduction of "anchor tokens" (i.e., lexical items that are identical across languages) helps cross-lingual representation alignment; and (3) the learning of a language-neutral representation alone is not sufficient to facilitate cross-lingual transfer. Based on our findings, we propose a novel approach -- multilingual pretraining with unified output space -- that both induces the learning of language-neutral representation and facilitates cross-lingual transfer.
 			</td>
 		</tr>
 	</table>
