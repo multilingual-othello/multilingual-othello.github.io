@@ -289,24 +289,9 @@
 
 	<table align=center width=850px>
 		<center>
-			<tr>
+			<tr align=center>
 				<td>
-					We train a sequence model which simulates the regular setup and blindfolded setup of sequence modeling in BabyAI, named as <em>Complete-State Model</em> and <em>Missing-State Model</em> respectively. 
-					<br>
-					<em>Randomly initialized baseline</em> is a probe trained on a sequence model with random weights.
-					<br>
-					<em>Initial state baseline</em> to always predict the initial state, without considering the actions taken by the agent. 
-				</td>
-			</tr>
-		</center>
-	</table>
-	<br>
-
-	<table align=center width=850px>
-		<center>
-			<tr>
-				<td>
-					<b>1. Role of Intermediate State Observations in the Emergence of State Representations</b>
+					<b>1. Models Trained with Naive Multilingual Pretraining Fail to Learn a Language-neutral Representation, <br> But the Introduction of Anchor Tokens Helps.</b>
 				</td>
 			</tr>
 		</center>
@@ -315,7 +300,7 @@
 		<tr>
 			<td align=center width=1000px>
 				<center>
-					<td><img class="round" style="width:600px" src="./resources/gotolocal_roles_of_states.png"/></td>
+					<td><img class="round" style="width:400px" src="./resources/table1.png"/></td>
 				</center>
 			</td>
 		</tr>
@@ -324,8 +309,11 @@
 		<center>
 			<tr>
 				<td>
-					We perform probing on the internal activations of a pretrained Complete-State model and a pretrained Missing-State model.
-					For Complete-State model, while the current state is explicitly fed to the model as part of its input, the poor performance of the randomly initialized weights confirms that this information is not trivially preserved in its internal activations - the model needs to be properly pretrained for that to happen. For Missing-State model, even though the current states are not explicitly given, they can be reconstructed reasonably well from the model's internal representations.
+					The first column of the table above shows the pairwise cross-lingual alignment probe accuracy in mOthelloGPTs trained on different language pairs using the naive training approach (with no anchor tokens). We observe a lack of strong alignment in the representations across all pairs of languages, implying that naive bilingual pretraining without any inductive biases may not yield representation alignment across languages.
+
+					<br><br>
+
+					Multilingual Othello allows us to introduce anchor tokens, which are the shared tokens across languages. We observe that as the number of shared anchor tokens across two languages increases, the alignment of representations improves. More specifically, with 4 shared anchor tokens, the representations already reach nearly perfect alignment for all three language-pair types. This suggests that the introduction of anchor tokens can help induce the learning of language-neutral representations.
 				</td>
 			</tr>
 		</center>
@@ -335,9 +323,10 @@
 
 	<table align=center width=850px>
 		<center>
-			<tr>
+			<tr align=center>
 				<td>
-					<b>2. Role of Language Instructions in the Emergence of State Representations</b>
+					<b>2. Learning Langauge-neutral Representations Is Not Sufficient for Cross-lingual Transfer</b>
+					<br>
 				</td>
 			</tr>
 		</center>
@@ -346,7 +335,8 @@
 		<tr>
 			<td align=center width=1000px>
 				<center>
-					<td><img class="round" style="width:600px" src="./resources/gotolocal_roles_of_instructions.png"/></td>
+					
+					<td><img class="round" style="width:500px" src="./resources/ftexp_1.png"/></td>
 				</center>
 			</td>
 		</tr>
@@ -355,8 +345,12 @@
 		<center>
 			<tr>
 				<td>
-					To study how language instructions impact the emergence of internal representations of states, we pretrain a Complete-State model and a Missing-State model without passing in language instructions. 
-					When the language instruction is absent during pretraining, the models struggle to recover state information as accurately as the models trained with language instructions, which reflects that language instructions play an important role in the emergence of internal state representations.
+					Next, we study whether aligned cross-lingual representations lead to cross-lingual transfer ability for mOthelloGPTs. The first and second columns in the figure above present cross-lingual transfer results of mOthelloGPTs trained with or without anchor tokens. We observe that
+					<ol>
+						<li>When cross-lingual representations do not align well, mOthelloGPT finetuned on one language does not benefit another language, which means this model does not have cross-lingual transfer ability</li>
+						<li>Even when the cross-lingual representation alignment is high for an mOthelloGPT, cross-lingual transfer still does not occur.</li>
+					</ol>
+					This finding goes against the common belief that cross-lingual representation alignment is a sufficient condition for the emergence of cross-lingual transfer ability in multilingual models.
 				</td>
 			</tr>
 		</center>
@@ -366,9 +360,9 @@
 	
 	<table align=center width=850px>
 		<center>
-			<tr>
+			<tr align=center>
 				<td>
-					<b>3. Blindfolded Navigation Performance</b>
+					<b>3. Multilingual Pretraining with Unified Output Space Brings Both Representation Alignment and  <br> Cross-Lingual Transfer.</b>
 				</td>
 			</tr>
 		</center>
@@ -377,17 +371,57 @@
 		<tr>
 			<td align=center width=1000px>
 				<center>
-					<td><img class="round" style="width:600px" src="./resources/gotolocal_navigation_performance.png"/></td>
+					
+					<td><img class="round" style="width:500px" src="./resources/ftexp_2.png"/></td>
 				</center>
 			</td>
 		</tr>
 	</table>
+
 	<table align=center width=850px>
 		<center>
 			<tr>
 				<td>
-					We further explore the practical implications of the emergence of internal state representations by evaluating pretrained Complete- and Missing-State models on GoToLocal. 
-					We observe that Missing-State model performs competitively against Complete-State model, even though Missing-State model only has access to the non-initial/last states during its training. This aligns with our expectation that a model which learns internal representations of states can utilize such representations to predict next actions. 
+					The third column in the figure above shows the results of representation alignment and cross-lingual transfer learning under the multilingual pretraining with unified output space. We observe that pretraining with unified output space brings mOthelloGPTs not only cross-lingual alignment, but also cross-lingual transfer ability. Specifically, for mOthelloGPT pretrained with Atomic language pairs, the cross-lingual alignment probe accuracy remains at around 90%, indicating that the FT source language and the target language are well aligned. Moreover, we observe that despite not encountering any sequences from the target language during finetuning, this mOthelloGPT still manages to enhance its performance in predicting next legal moves in language the target language to the same extent as in the FT source language. This indicates that this mOthelloGPT achieves cross-lingual transfer under the unified output space approach. We notice that the cross-lingual transfer ability of mOthelloGPTs trained with Split or Compositional language pairs is slightly weaker, but the pattern that finetuning on the FT source language benefits next move prediction in the target language still holds, especially at early finetuning phase.
+					<br><br>
+					The improvement in performance of target language across three language pairs of structurally different languages implies that multilingual pretraining with unified output space is an effective approach for inducing cross-lingual alignment and cross-lingual transfer ability and is robust to structural differences across languages.
+				</td>
+			</tr>
+		</center>
+	</table>
+
+	<table align=center width=850px>
+		<center>
+			<tr align=center>
+				<td>
+					<b>4. Our Results Generalize to Multilingual Trainings with More Than Two Languages</b>
+				</td>
+			</tr>
+		</center>
+	</table>
+	<table align=center width=400px>
+		<tr>
+			<td align=center width=1000px>
+				<center>
+					
+					<td><img class="round" style="width:800px" src="./resources/mixed_ft.png"/></td>
+				</center>
+			</td>
+		</tr>
+	</table>
+
+	<table align=center width=850px>
+		<center>
+			<tr>
+				<td>
+					Here, we explore whether our findings hold for multilingual models that are trained with more than two languages. The above figure shows the cross-lingual representation alignment and cross-lingual transfer performance of mOthelloGPTs trained with 4 languages consisting of different language types. 
+					We find that the results are consistent with our findings on bilingual mOthelloGPTs: 
+					<ol>
+						<li>While anchor tokens improve representation alignment across languages, it does not help the model to achieve its cross-lingual transfer ability;</li>
+						<li>With the introduction of the unified output token space during multilingual pretraining, both cross-lingual representation alignment and cross-lingual transfer are achieved.</li>
+					</ol>
+					
+					This result suggests that the unified output space approach also generalizes to scenarios when a multilingual model is trained on more than two languages.
 				</td>
 			</tr>
 		</center>
