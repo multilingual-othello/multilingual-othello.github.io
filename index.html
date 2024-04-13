@@ -242,8 +242,44 @@
 					<br>We use Multilingual Othello (mOthello), a sequence modeling task based on the Othello board game to investigate the essential factors for learning language-neutral representations and whether they are sufficient to facilitate the cross-lingual transfer ability of multilingual models. 
 					<br><br>
 					In mOthello, a model is given a sequence of game moves in a specific "language", and the task is to predict the next legal move in the same "language". This environment is appropriate for our purposes, since it separates the ground truth "world" (i.e., the game state) which is assumed to be singular, from the language used to describe it, which can take any number of forms (languages). We later formulate our measure of language-neutral representations around the ground-truth underlying world states. The figures above show how mOthello instances can be used to generate a corpus of multilingual data for training and evaluation. 
+
 					<br><br>
-					With training data generated via mOthello, we train multilingual models with GPT-2 architecture (mOthelloGPTs) and evaluate whether they have learned language-neutral represetations and whether their performance can transfer across languages.
+					To test the generalizability of our findings beyond the simple mOthello languages, we introduce three variants of mOthello languages to mirror features of natural languages:
+					<ol>
+						<li><strong>Atomic language</strong> maps each game move to a single (atomic) language-specific token. For example,  moves <strong>[a1, a2, b1]</strong> are mapped to <em>[a1, a2, b1]</em> in an atomic language.</li>
+						<li><strong>Split language</strong> simulates the scenario when a semantic unit is represented by one or more tokens. In the context of mOthello, this means that each game move can be mapped to one or more tokens in a split language. For example, moves <strong>[a1, a2, b1]</strong> are mapped to <em>[a1<sub>1</sub>, a1<sub>2</sub>, a2<sub>1</sub>, b1<sub>1</sub>, b1<sub>2</sub>, b1<sub>3</sub>]</em> in a split language. The number of tokens each move is split into is sampled randomly from 1 to 3.</li>
+						<li><strong>Compositional language</strong> represents moves by decomposing each of them into its horizontal and vertical location on the board. In this type of language, tokens are reused to represent different moves in a compositional way. For example, moves <strong>[a1, a2, b1]</strong> are mapped to <em>[a, 1, a, 2, b, 1]</em> in a compositional language.</li>
+					</ol>
+				</td>
+			</tr>
+		</center>
+	</table>
+
+	<br><hr>
+
+	<center><h1>Multilingual Pretraining & mOthelloGPT</h1></center>
+	
+
+	<table align=center width=400px>
+		<center><tr>
+			<td align=center width=700px>
+				<center>
+					<img class="round" style="width:900px" src="./resources/teaser_horizontal.png" alt="Illustration of three multilingual training approaches. Blue and green blocks represent contexts in 2 different languages, and tokens from the same language have the same color."/>
+				</center>
+			</td>
+		</tr></center>
+	</table>
+	<table align=center width=850px>
+		<center>
+			<tr>
+				<td>
+					<br>
+					With training data generated via mOthello, we train GPT-2 (mOthelloGPTs) with different multilingual pretraining approaches (as illustrated in the figure above). Block "M" represents an mOthelloGPT. Blue and green blocks represent words in 2 different languages. 
+					<ol type="a">
+						<li><strong>Naive Multilingual Pretraining</strong>: A model is trained on multilingual corpora, with an objective to predict the next tokens specific to each language. </li>
+						<li><strong>Multilingual Pretraining with Anchor Tokens</strong>: A model is trained on multilingual corpora, where there are tokens shared across language pairs. These tokens are named as anchor tokens. The objective is still to predict the next tokens specific to each language. </li>
+						<li><strong>Multilingual Pretraining with Unified Output Space</strong>: A model is trained on multilingual corpora, with an objective to predict the next tokens in a unified output space. </li>
+					</ol>
 				</td>
 			</tr>
 		</center>
